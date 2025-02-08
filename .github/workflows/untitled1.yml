@@ -52,7 +52,7 @@ jobs:
         if: contains(matrix.qt_arch,'msvc') && contains(matrix.qt_arch,'win64')
         shell: cmd
         run: |
-          call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
           cd untitled1
           qmake
           if %errorlevel% neq 0 (
