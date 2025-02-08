@@ -32,27 +32,10 @@ jobs:
     # 步骤
     steps:
      # 安装编译依赖（Windows）
-      - name: Install build dependencies (Windows)
+      - name: Install build dependencies
         run: |
-          choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
-      # 设置 Python 环境
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-      # 更新 Python 构建工具
-      - name: Update Python build tools
-        run: |
-          python -m pip install --upgrade setuptools wheel pip
-      # 创建并激活虚拟环境
-      - name: Create and activate virtual environment
-        run: |
-          python -m venv myenv
-          . myenv/Scripts/activate
-      # 安装 Python 包，添加重试和详细日志
-      - name: Install Python packages with retries and verbose logging
-        run: |
-          pip install --retries 5 --verbose pyppmd pyzstd
+         sudo apt-get update
+         sudo apt-get install -y build-essential libffi-dev zlib1g-dev
       # 安装Qt
       - name: Install Qt
         # 使用外部action。这个action专门用来安装Qt
