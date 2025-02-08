@@ -48,12 +48,11 @@ jobs:
         with:
           fetch-depth: 1
       # msvc编译
-      - name: msvc-build
-        id: build
+      - name: build-msvc-x64
+        if: contains(matrix.qt_arch,'msvc') && contains(matrix.qt_arch,'win64')
         shell: cmd
         run: |
-          cd GlassPT
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" ${{ matrix.msvc_arch }}
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           qmake
           nmake
           echo winSdkDir=%WindowsSdkDir% >> %GITHUB_ENV%
