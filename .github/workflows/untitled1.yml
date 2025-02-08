@@ -32,19 +32,19 @@ jobs:
     steps:
       # 安装Qt
       - name: Install Qt
-        # 缓存未命中时才安装
-        if: steps.cacheqt.outputs.cache-hit != 'true'
         # 使用外部action。这个action专门用来安装Qt
-        uses: jurplel/install-qt-action@v2.0.0
+        uses: jurplel/install-qt-action@v2
         with:
-          # Version of Qt to install
+         # Version of Qt to install
           version: ${{ matrix.qt_ver }}
           # Target platform for build
-          target: ${{ matrix.qt_target }}
-          # Architecture for Windows/Android
+          # target: ${{ matrix.qt_target }}
           arch: ${{ matrix.qt_arch }}
+          cached: 'false'
+          aqtversion: '==2.0.5'   
+                
       # 拉取代码
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 1
       # msvc编译
