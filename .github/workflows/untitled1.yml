@@ -28,26 +28,10 @@ jobs:
             qt_arch_install: msvc2019_64       
     env:
       targetName: untitled1.exe
+    
     # 步骤
     steps:
-      # 安装Qt
-      - name: Install Qt
-        # 使用外部action。这个action专门用来安装Qt
-        uses: jurplel/install-qt-action@v2
-        with:
-         # Version of Qt to install
-          version: ${{ matrix.qt_ver }}
-          # Target platform for build
-          # target: ${{ matrix.qt_target }}
-          arch: ${{ matrix.qt_arch }}
-          cached: 'false'
-          aqtversion: '==2.0.5'   
-                
-      # 拉取代码
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-      # 安装编译依赖（Windows）
+     # 安装编译依赖（Windows）
       - name: Install build dependencies (Windows)
         run: |
           choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
@@ -69,6 +53,24 @@ jobs:
       - name: Install Python packages with retries and verbose logging
         run: |
           pip install --retries 5 --verbose pyppmd pyzstd
+      # 安装Qt
+      - name: Install Qt
+        # 使用外部action。这个action专门用来安装Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+         # Version of Qt to install
+          version: ${{ matrix.qt_ver }}
+          # Target platform for build
+          # target: ${{ matrix.qt_target }}
+          arch: ${{ matrix.qt_arch }}
+          cached: 'false'
+          aqtversion: '==2.0.5'   
+                
+      # 拉取代码
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+     
       # msvc编译
       - name: build-msvc-x64
         if: contains(matrix.qt_arch,'msvc') && contains(matrix.qt_arch,'win64')
