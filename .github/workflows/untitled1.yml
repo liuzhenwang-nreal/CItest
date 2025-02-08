@@ -52,9 +52,19 @@ jobs:
         if: contains(matrix.qt_arch,'msvc') && contains(matrix.qt_arch,'win64')
         shell: cmd
         run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          cd untitled1
           qmake
+          if %errorlevel% neq 0 (
+              echo "qmake failed"
+              exit /b %errorlevel%
+          )
           nmake
+          if %errorlevel% neq 0 (
+              echo "nmake failed"
+              exit /b %errorlevel%
+          )
+          REM 如果后续不需要这些环境变量，可以移除下面的语句
           echo winSdkDir=%WindowsSdkDir% >> %GITHUB_ENV%
           echo winSdkVer=%WindowsSdkVersion% >> %GITHUB_ENV%
           echo vcToolsInstallDir=%VCToolsInstallDir% >> %GITHUB_ENV%
